@@ -38,7 +38,7 @@ common_ports = {
 
 def check_port(host, port, result=1):
     try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # udp protocal socket.SOCK_DGRAM, tcp protocal socket.SOCK_STREAM
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # udp protocal socket.SOCK_DGRAM, tcp protocal socket.SOCK_STREAM
         sock.settimeout(0.5)
         r = sock.connect_ex((host, port))
         if r == 0:
@@ -57,7 +57,7 @@ def get_service(port):
         return "Unknown service"
 
 flag = 0
-os.system('clear')
+os.system('clear') # Linux base clear, Wins cls
 
 line = "+" * 80
 desc = line + '''\nA Simple port scanner that works!! (c) digitz.org
