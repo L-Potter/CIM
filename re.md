@@ -1,6 +1,6 @@
 1. 畢業於長庚大學資訊工程學系
 2. 多益成績為670分
-3. 大學專題: 使用elasticSearch 作為搜尋引擎 並且使用flask 作為elasticsearch跟前端的 API。 資料來源使用selenium自動化操作瀏覽器爬蟲．
+3. 大學專題: 負責後端，使用elasticSearch 作為搜尋引擎 並且使用flask 作為elasticsearch跟前端的 API。 資料來源使用selenium自動化操作瀏覽器爬蟲．
 
 程式語言: Python(主要使用) Golang C++ C Java
 開發環境: git, Ubuntu, Docker, K8S
