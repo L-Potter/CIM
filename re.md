@@ -34,8 +34,8 @@
 TSMC: 2023/5 - now
 Routine Task
 部門機台保養與T/S與修機，Parts上下機與盤點
-申請單開立: 施工單, 電腦掃毒, 開card
-報表整理: SPC,fdc, Uchart, KER...
+申請單開立: 施工單, 電腦掃毒, 開card, RP單 etc.
+報表整理: SPC,fdc, Uchart, KER etc.
 值班: Area Team member, P3 BackUp Leader, 8月接ACC戰情
 
 軟體部分: 
