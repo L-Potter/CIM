@@ -223,3 +223,141 @@ SELECT INTO 是試驗新SQL 語句前進行表格複製的很好工具。先進�
 種方法，為什麼要明確使用列名，如何用INSERT SELECT 從其他表導
 入行，如何用SELECT INTO 將行匯出到一個新表。下一課將講述如何使
 用UPDATE 和DELETE 進一步操作表格資料。
+
+
+这一课介绍如何利用UPDATE 和DELETE 语句进一步操作表数据。
+16.1 更新数据
+更新（修改）表中的数据，可以使用UPDATE 语句。有两种使用UPDATE
+的方式：
+ 更新表中的特定行；
+ 更新表中的所有行。
+下面分别介绍。
+注意：不要省略WHERE 子句
+在使用UPDATE 时一定要细心。因为稍不注意，就会更新表中的所有
+行。使用这条语句前，请完整地阅读本节。
+提示：UPDATE 与安全
+在客户端/服务器的DBMS 中，使用UPDATE 语句可能需要特殊的安全
+权限。在你使用UPDATE 前，应该保证自己有足够的安全权限。
+使用UPDATE 语句非常容易，甚至可以说太容易了。基本的UPDATE 语句
+由三部分组成，分别是：要更新的表；
+ 列名和它们的新值；
+ 确定要更新哪些行的过滤条件。
+举一个简单例子。客户1000000005 现在有了电子邮件地址，因此他的
+记录需要更新，语句如下：
+输入▼
+UPDATE Customers
+SET cust_email = 'kim@thetoystore.com'
+WHERE cust_id = 1000000005;
+UPDATE 语句总是以要更新的表名开始。在这个例子中，要更新的表名为
+Customers。SET 命令用来将新值赋给被更新的列。在这里，SET 子句设
+置cust_email 列为指定的值：
+SET cust_email = 'kim@thetoystore.com'
+UPDATE 语句以WHERE 子句结束，它告诉DBMS 更新哪一行。没有WHERE
+子句，DBMS 将会用这个电子邮件地址更新Customers 表中的所有行，
+这不是我们希望的。
+更新多个列的语法稍有不同：UPDATE Customers
+SET cust_contact = 'Sam Roberts',
+cust_email = 'sam@toyland.com'
+WHERE cust_id = 1000000006;
+在更新多个列时，只需要使用一条SET 命令，每个“列=值”对之间用
+逗号分隔（最后一列之后不用逗号）。在此例子中，更新顾客1000000006
+的cust_contact 和cust_email 列。
+提示：在UPDATE 语句中使用子查询
+UPDATE 语句中可以使用子查询，使得能用SELECT 语句检索出的数据
+更新列数据。关于子查询及使用的更多内容，请参阅第11 课。
+提示：FROM 关键字
+有的SQL 实现支持在UPDATE 语句中使用FROM 子句，用一个表的数
+据更新另一个表的行。如想知道你的DBMS 是否支持这个特性，请参
+阅它的文档。
+要删除某个列的值，可设置它为NULL（假如表定义允许NULL 值）。如下
+进行：
+输入▼
+UPDATE Customers
+SET cust_email = NULL
+WHERE cust_id = 1000000005;
+其中NULL 用来去除cust_email 列中的值。这与保存空字符串很不同
+（空字符串用''表示，是一个值），而NULL 表示没有值。
+16.2 删除数据
+从一个表中删除（去掉）数据，使用DELETE 语句。有两种使用DELETE
+的方式：
+ 从表中删除特定的行；
+从表中删除所有行。
+下面分别介绍。
+注意：不要省略WHERE 子句
+在使用DELETE 时一定要细心。因为稍不注意，就会错误地删除表中
+所有行。在使用这条语句前，请完整地阅读本节。
+提示：DELETE 与安全
+在客户端/服务器的DBMS 中，使用DELETE 语句可能需要特殊的安全
+权限。在你使用DELETE 前，应该保证自己有足够的安全权限。
+前面说过，UPDATE 非常容易使用，而DELETE 更容易使用。
+下面的语句从Customers 表中删除一行：
+输入▼
+DELETE FROM Customers
+WHERE cust_id = 1000000006;
+这条语句很容易理解。DELETE FROM 要求指定从中删除数据的表名，
+WHERE 子句过滤要删除的行。在这个例子中，只删除顾客1000000006。
+如果省略WHERE 子句，它将删除表中每个顾客。
+提示：友好的外键
+第12 课介绍了联结，简单联结两个表只需要这两个表中的公用字段。
+也可以让DBMS 通过使用外键来严格实施关系（这些定义在附录A
+中）。存在外键时，DBMS 使用它们实施引用完整性。例如要向
+Products 表中插入一个新产品，DBMS 不允许通过未知的供应商id
+插入它，因为vend_id 列是作为外键连接到Vendors 表的。那么，
+这与DELETE 有什么关系呢？使用外键确保引用完整性的一个好处是，
+DBMS 通常可以防止删除某个关系需要用到的行。例如，要从
+Products 表中删除一个产品，而这个产品用在OrderItems 的已有订
+单中，那么DELETE 语句将抛出错误并中止。这是总要定义外键的另
+一个理由。
+提示：FROM 关键字
+在某些SQL 实现中，跟在DELETE 后的关键字FROM 是可选的。但是
+即使不需要，也最好提供这个关键字。这样做将保证SQL代码在DBMS
+之间可移植。
+DELETE 不需要列名或通配符。DELETE 删除整行而不是删除列。要删除
+指定的列，请使用UPDATE 语句。
+说明：删除表的内容而不是表
+DELETE 语句从表中删除行，甚至是删除表中所有行。但是，DELETE
+不删除表本身。
+提示：更快的删除
+如果想从表中删除所有行，不要使用DELETE。可使用TRUNCATE TABLE
+语句，它完成相同的工作，而速度更快（因为不记录数据的变动）。
+16.3 更新和删除的指导原则
+前两节使用的UPDATE 和DELETE 语句都有WHERE 子句，这样做的理由
+很充分。如果省略了WHERE 子句，则UPDATE 或DELETE 将被应用到表
+中所有的行。换句话说，如果执行UPDATE 而不带WHERE 子句，则表中
+每一行都将用新值更新。类似地，如果执行DELETE 语句而不带WHERE
+子句，表的所有数据都将被删除。
+下面是许多SQL 程序员使用UPDATE 或DELETE 时所遵循的重要原则。
+ 除非确实打算更新和删除每一行，否则绝对不要使用不带WHERE 子句
+的UPDATE 或DELETE 语句。
+ 保证每个表都有主键（如果忘记这个内容，请参阅第12 课），尽可能
+像WHERE 子句那样使用它（可以指定各主键、多个值或值的范围）。
+ 在UPDATE 或DELETE 语句使用WHERE 子句前，应该先用SELECT 进
+行测试，保证它过滤的是正确的记录，以防编写的WHERE 子句不正确。
+ 使用强制实施引用完整性的数据库（关于这个内容，请参阅第12 课），
+这样DBMS 将不允许删除其数据与其他表相关联的行。
+ 有的DBMS 允许数据库管理员施加约束，防止执行不带WHERE 子句
+的UPDATE 或DELETE 语句。如果所采用的DBMS 支持这个特性，应
+该使用它。
+若是SQL 没有撤销（undo）按钮，应该非常小心地使用UPDATE 和DELETE，
+否则你会发现自己更新或删除了错误的数据。
+16.4 小结
+这一课讲述了如何使用UPDATE 和DELETE 语句处理表中的数据。我们学
+习了这些语句的语法，知道了它们可能存在的危险，了解了为什么WHERE
+子句对UPDATE 和DELETE 语句很重要，还学习了为保证数据安全而应该
+遵循的一些指导原则。
+
+
+
+在 Oracle 中，字符集設定是由資料庫創建過程中的 CHARACTER SET 來決定的。這個設置會影響資料庫中的所有資料表（Tables）及其欄位（Columns）。例如，當創建 Oracle 資料庫時，你可能會選擇以下字符集之一：
+* AL32UTF8：最常見的 Unicode 編碼，支持多語言。
+* WE8ISO8859P1：西歐字符集，常見於舊版資料庫。
+* ZHS16GBK：用於簡體中文的字符集。
+如果你正在創建 Oracle 資料庫，字符集可以在創建時設定，例如：
+sql
+複製程式碼
+CREATE DATABASE mydb
+   CHARACTER SET AL32UTF8
+   NATIONAL CHARACTER SET AL16UTF16;
+這樣會指定資料庫使用 AL32UTF8 來存儲資料並使用 AL16UTF16 來處理國際化字符。
+SELECT * FROM nls_database_parameters WHERE parameter = 'NLS_CHARACTERSET';
+
