@@ -1,5 +1,15 @@
 # https://github.com/pywinauto/pywinauto
 
+https://colanekojp.com.tw/blog_detail/9
+https://www.watashi.com.hk/20210211japanese-learning-point28/
+https://colanekojp.com.tw/classroom_detail/178
+https://colanekojp.com.tw/blog_detail/17
+
+https://www.sigure.tw/learn-japanese/grammar/n5/31
+https://www.sigure.tw/learn-japanese/grammar/n4/52
+https://www.sigure.tw/learn-japanese/grammar/n5/37
+
+
 from pywinauto import Application, mouse
 
 mouse_position = mouse.get_position()
