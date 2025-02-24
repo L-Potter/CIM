@@ -1,0 +1,134 @@
+
+
+
+
+
+
+
+
+
+
+這段說明提供了 如何手動安裝與排除 Radmin Mirror Driver 問題 的詳細步驟，適用於 Windows Vista（32/64 位元）。主要目標是確保 Radmin Mirror Driver 正確安裝並運作，以便 Radmin Server 能夠透過 Full Control 模式 遠端控制目標電腦。
+
+步驟解析
+
+1. 確保 Windows 版本相容
+
+	Make sure Radmin Server is installed on 32-bit or 64-bit version of Windows Vista.
+確保 Radmin Server 安裝在 Windows Vista（32 或 64 位元）上。
+
+	•	Radmin Server 3.x 需要 Windows XP/Vista/7/8/10，但 這份指南針對 Vista。如果使用 Windows 10/11，步驟可能略有不同。
+
+2. 移除舊版 Radmin Mirror Driver
+
+	Open ‘Device Manager’ and uninstall all ‘Radmin Mirror Driver’ devices in the ‘Display Adapters’ section, if any. Reboot.
+開啟「裝置管理員」，在「顯示卡」類別下找到並解除安裝所有 Radmin Mirror Driver，然後重新啟動電腦。
+
+	•	路徑：
+	•	右鍵 開始 → 裝置管理員
+	•	展開 顯示卡（Display Adapters）
+	•	找到 Radmin Mirror Driver
+	•	右鍵 → 解除安裝
+	•	勾選「刪除此裝置的驅動程式」（如果有此選項）
+	•	重新開機，確保 舊的 Radmin Mirror Driver 不再載入。
+
+3. 檢查 Radmin Mirror Driver 是否仍存在
+
+	After reboot open the ‘Device Manager’ and check that no ‘Radmin Mirror Driver’ is displayed in the ‘Display Adapters’ section.
+重新啟動後，開啟「裝置管理員」，確保「顯示卡」類別下沒有 Radmin Mirror Driver。
+
+	•	如果 Radmin Mirror Driver 仍然出現在裝置管理員內：
+	1.	按 Windows + R，輸入 msinfo32.exe → 按 Enter
+	2.	檔案 → 儲存，產生 系統資訊報告
+	3.	將報告發送給 Radmin 技術支援
+
+4. 刪除安裝日誌
+
+	In your Windows directory (normally C:\WINDOWS) delete the following files:
+setupact.log
+setupapi.log
+setuperr.log
+setuplog.txt
+
+	•	這些 安裝日誌文件 可能包含錯誤紀錄。刪除它們可以確保 新的安裝日誌不會混入舊的錯誤資訊。
+
+刪除方法：
+
+	1.	開啟 C:\WINDOWS 目錄
+	2.	找到並刪除 上述 4 個文件
+	3.	重新啟動電腦
+
+5. 手動安裝 Radmin Mirror Driver
+
+	Use ‘Add Hardware’ Windows wizard and install Radmin Mirror Driver by manually specifying mirrorv3.inf file located in the Windows\system32\rserver30 directory.
+使用「新增硬體精靈」手動安裝 Radmin Mirror Driver，指定 mirrorv3.inf 位於 C:\Windows\system32\rserver30。
+
+	•	步驟：
+	1.	打開「控制台」 →「裝置管理員」
+	2.	點選「動作」 →「新增舊版硬體」
+	3.	選擇 手動安裝
+	4.	選擇「顯示卡（Display Adapters）」
+	5.	按 「從磁碟安裝」
+	6.	瀏覽到 C:\Windows\system32\rserver30\mirrorv3.inf
+	7.	安裝驅動程式
+
+6. 收集新的安裝日誌
+
+	After manual driver installation, Windows will create up to 4 following files in Windows directory:
+setupact.log
+setupapi.log
+setuperr.log
+setuplog.txt
+Send files that exist to our technical support as an e-mail attachment.
+
+	•	目的：
+	•	驗證 手動安裝過程是否成功
+	•	如果 仍然無法安裝，可以將 這 4 個日誌文件 交給 Radmin 技術支援分析。
+
+7. 測試 Radmin Server 連線
+
+	Try to connect Radmin Server using Full Control connection mode. In case of failure, continue following this guide.
+嘗試使用「完全控制（Full Control）」模式連接 Radmin Server，如果失敗，請繼續執行後續步驟。
+
+	•	測試步驟：
+	1.	在 Radmin Viewer 中輸入目標電腦的 IP
+	2.	選擇 Full Control 模式
+	3.	按 「連線」
+	4.	如果失敗，繼續下面的步驟
+
+8. 停用其他顯示裝置
+
+	Open ‘Device Manager’ and disable all devices in the ‘Display Adapters’ section except of ‘Radmin Mirror Driver V3’. Reboot, not in the Safe Mode.
+開啟「裝置管理員」，停用「顯示卡」類別下除了 Radmin Mirror Driver V3 以外的所有裝置，然後重新啟動電腦（不要進入安全模式）。
+
+	•	目的：
+	•	防止其他顯示卡影響 Radmin Mirror Driver
+	•	測試 Radmin Mirror Driver 是否能夠正常運作
+	•	步驟：
+	1.	開啟 裝置管理員
+	2.	右鍵 → 停用所有顯示卡（除了 Radmin Mirror Driver V3）
+	3.	重新啟動 Windows（非安全模式）
+	4.	測試 Radmin Server 連線
+
+9. 最後的測試與報告
+
+	Try to connect Radmin Server using Full Control connection mode. Press Windows ‘Start’ button, select ‘Run’, type ‘msinfo32.exe’ and click on the ‘Ok’ button. Use ‘File’ -> ‘Save’ to generate a report file and send this file to our technical support via e-mail attachment, alongside with information if this connection attempt was successful or not.
+再次嘗試使用「完全控制」模式連接 Radmin Server。如果失敗，執行 msinfo32.exe 產生系統資訊報告，並將報告與連線成功或失敗的結果一同發送給 Radmin 技術支援。
+
+	•	如果連線仍然 失敗，將：
+	1.	msinfo32.exe 系統資訊報告
+	2.	安裝日誌（setupapi.log、setuperr.log 等）
+	3.	錯誤畫面截圖
+	•	一起寄送給 Radmin 技術支援 進行深入診斷。
+
+結論
+
+這份指南主要解決 Radmin Mirror Driver 無法正確安裝或運行 的問題，重點包括：
+
+	•	刪除舊版驅動
+	•	手動安裝 Radmin Mirror Driver
+	•	測試連線
+	•	關閉其他顯示卡
+	•	提供安裝日誌進行診斷
+
+如果遇到 Error 1603 或 無法使用 Full Control 模式，可以按照這份指南一步步排查問題。
